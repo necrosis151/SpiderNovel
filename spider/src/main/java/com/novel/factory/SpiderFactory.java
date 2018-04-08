@@ -11,12 +11,29 @@ public class SpiderFactory {
         if (SpiderContext==null){
             throw new RuntimeException("不支持的网页");
         }
-        String spider = SpiderContext.get("spider");
+        String spider = SpiderContext.get("ChapterSpider");
+        try {
+            if (spider == null || spider.equalsIgnoreCase("default") || spider.equals("")) {
+                return Class.forName("com.novel.serverimpl.DefaultSpider").newInstance();
+            } else {
+                return Class.forName(spider).newInstance();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    public Object getContentSpider(String url) {
+        HashMap<String, String> SpiderContext = NovelSpiderUtil.getSpiderContext(url);
+        if (SpiderContext==null){
+            throw new RuntimeException("不支持的网页");
+        }
+        String spider = SpiderContext.get("ContentSpider");
         try {
             if (spider == null || spider.equalsIgnoreCase("default") || spider.equals("")) {
                 return Class.forName(spider).newInstance();
             } else {
-                return Class.forName(spider).newInstance();
+                return Class.forName("com.novel.serverimpl.ZhuLangContentSpider").newInstance();
             }
         } catch (Exception e) {
             e.printStackTrace();
