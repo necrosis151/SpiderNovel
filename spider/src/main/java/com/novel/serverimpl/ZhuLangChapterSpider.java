@@ -1,0 +1,45 @@
+package com.novel.serverimpl;
+
+import com.novel.model.Chapter;
+import com.novel.server.ChapterSpider;
+import com.novel.util.NovelSpiderUtil;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+public class ZhuLangChapterSpider extends AbstractSpider implements ChapterSpider{
+    @Override
+    public List<List<Chapter>> getChapterByPart(String url) {
+        Map<String, String> spiderContext = NovelSpiderUtil.getSpiderContext(url);
+        List parts = new ArrayList();
+        String result = getHtml(url, spiderContext.get("charset"));
+        Document doc = Jsoup.parse(result);
+        // /#j-catalogWrap > div.volume-wrap > div:nth-child(1) > ul
+//        Elements parts = doc.select("#j-catalogWrap").select("div.volume-wrap").select("div:nth-child(1)").select("ul");
+        Elements uls = doc.select(spiderContext.get("chapters-selector-part"));
+        for (int i = 0; i < uls.size() - 1; i++) {
+            Elements as = uls.get(i).select(spiderContext.get("chapters-selector-chapterlist"));
+            List<Chapter> chapters = new ArrayList();
+            for (Element a : as
+                    ) {
+                Chapter chapter = new Chapter();
+                chapter.setTitle(a.text());
+                String chapterURL=a.attr("href");
+                chapter.setUrl(chapterURL);
+                if (chapterURL.contains("vip")){
+                    chapter.setVip(true);
+                }else {
+                    chapter.setVip(false);
+                }
+                chapters.add(chapter);
+            }
+            parts.add(chapters);
+        }
+        return parts;
+    }
+}

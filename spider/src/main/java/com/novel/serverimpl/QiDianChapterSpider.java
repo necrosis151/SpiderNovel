@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class DefaultChapterSpider extends AbstractSpider implements ChapterSpider {
+public class QiDianChapterSpider extends AbstractSpider implements ChapterSpider {
 //    Map<String, HashMap<String, String>> contexts = NovelSpiderUtil.getContextMap();
 
     public List<List<Chapter>> getChapterByPart(String url) {
@@ -21,8 +21,7 @@ public class DefaultChapterSpider extends AbstractSpider implements ChapterSpide
         List parts = new ArrayList();
         String result = getHtml(url, spiderContext.get("charset"));
         Document doc = Jsoup.parse(result);
-        // /#j-catalogWrap > div.volume-wrap > div:nth-child(1) > ul
-//        Elements parts = doc.select("#j-catalogWrap").select("div.volume-wrap").select("div:nth-child(1)").select("ul");
+
         Elements uls = doc.select(spiderContext.get("chapters-selector-part"));
         for (int i = 0; i < uls.size() - 1; i++) {
             Elements as = uls.get(i).select(spiderContext.get("chapters-selector-chapterlist"));

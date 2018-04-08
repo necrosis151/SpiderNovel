@@ -4,7 +4,7 @@
     <site>
         <title>起点中文网</title>
         <url>qidian.com</url>
-        <spider>  </spider>
+        <spider>com.novel.serverimpl.QiDianChapterSpider</spider>
         <chapters-selector-part>ul[class=cf]</chapters-selector-part>
         <chapters-selector-chapterlist>li a</chapters-selector-chapterlist>
         <charset>UTF-8</charset>
@@ -12,5 +12,9 @@
     <site>
         <title>逐浪小说</title>
         <url>zhulang.com</url>
+        <spider>com.novel.serverimpl.ZhuLangChapterSpider</spider>
+        <chapters-selector-part>div[class=chapter-list]</chapters-selector-part>
+        <chapters-selector-chapterlist>ul li a</chapters-selector-chapterlist>
+        <charset>UTF-8</charset>
     </site>
 </sites>

@@ -14,7 +14,7 @@ public class SpiderFactory {
         String spider = SpiderContext.get("spider");
         try {
             if (spider == null || spider.equalsIgnoreCase("default") || spider.equals("")) {
-                return Class.forName("com.novel.serverimpl.DefaultChapterSpider").newInstance();
+                return Class.forName(spider).newInstance();
             } else {
                 return Class.forName(spider).newInstance();
             }
