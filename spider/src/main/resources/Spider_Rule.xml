@@ -9,7 +9,7 @@
         <ChapterSpider>com.novel.serverimpl.QiDianChapterSpider</ChapterSpider>
         <chapters-selector-part>ul[class=cf]</chapters-selector-part>
         <chapters-selector-chapterlist>li a</chapters-selector-chapterlist>
-        <!-- content信息-->
+        <!-- novelcontent信息-->
         <ContentSpider>com.novel.serverimpl.QiDianContentSpider</ContentSpider>
         <novel-title>h3[class=j_chapterName]</novel-title>
         <novel-content>div[class=read-content j_readContent] p</novel-content>
@@ -23,7 +23,7 @@
         <ChapterSpider>com.novel.serverimpl.ZhuLangChapterSpider</ChapterSpider>
         <chapters-selector-part>div[class=chapter-list]</chapters-selector-part>
         <chapters-selector-chapterlist>ul li a</chapters-selector-chapterlist>
-        <!-- content信息-->
+        <!-- novelcontent信息-->
         <ContentSpider>com.novel.serverimpl.ZhuLangContentSpider</ContentSpider>
         <novel-title>#read-content h2</novel-title>
         <novel-content>#read-content p</novel-content>
