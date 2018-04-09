@@ -5,12 +5,11 @@ import com.novel.model.Chapter;
 import com.novel.model.NovelContent;
 import com.novel.server.ChapterSpider;
 import com.novel.server.ContentSpider;
-import com.novel.util.NovelSpiderUtil;
+import com.novel.server.DownLoad;
 import org.junit.Test;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
+
 
 public class SpiderTest {
 
@@ -46,5 +45,13 @@ public class SpiderTest {
         ContentSpider spider = (ContentSpider) new SpiderFactory().getContentSpider(url);
         NovelContent content = spider.getContent(url);
         System.out.println(content.getContent());
+    }
+
+    @Test
+    public void downloadOne() {
+        String url = "http://book.zhulang.com/461915/231166.html";
+        String adree = "C:\\Users\\Administrator\\Desktop";
+        DownLoad downLoad = new NovelDownload();
+        downLoad.downloadChapter(url, adree);
     }
 }
