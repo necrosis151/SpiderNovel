@@ -14,7 +14,7 @@ import java.util.Map;
 
 public class ZhuLangChapterSpider extends AbstractSpider implements ChapterSpider {
     @Override
-    public List<List<Chapter>> getChapterByPart(String url) {
+    public List<List<Chapter>> getChapterByPart(String url, boolean vip) {
         Map<String, String> spiderContext = NovelSpiderUtil.getSpiderContext(url);
         List parts = new ArrayList();
         String result = getHtml(url, spiderContext.get("charset"));
@@ -31,10 +31,13 @@ public class ZhuLangChapterSpider extends AbstractSpider implements ChapterSpide
                 chapter.setUrl(chapterURL);
                 if (a.select("span").text().contains("[vip]")) {
                     chapter.setVip(true);
+                    if (vip == true) {
+                        chapters.add(chapter);
+                    }
                 } else {
                     chapter.setVip(false);
+                        chapters.add(chapter);
                 }
-                chapters.add(chapter);
             }
             parts.add(chapters);
         }

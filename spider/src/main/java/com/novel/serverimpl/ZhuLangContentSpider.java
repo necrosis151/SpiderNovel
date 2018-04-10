@@ -2,7 +2,6 @@ package com.novel.serverimpl;
 
 import org.jsoup.nodes.Document;
 import com.novel.model.NovelContent;
-import com.novel.server.ChapterSpider;
 import com.novel.server.ContentSpider;
 import com.novel.util.NovelSpiderUtil;
 import org.jsoup.Jsoup;
@@ -11,7 +10,6 @@ import org.jsoup.select.Elements;
 
 
 import java.util.HashMap;
-import java.util.List;
 
 public class ZhuLangContentSpider extends AbstractSpider implements ContentSpider {
 
@@ -33,10 +31,15 @@ public class ZhuLangContentSpider extends AbstractSpider implements ContentSpide
         }
         novelContent.setContent(sb.toString());
         Elements readpages = doc.select(SpiderContext.get("novel-readpage"));
-
-        novelContent.setPre(readpages.get(0).attr("href"));
-        novelContent.setIndex(readpages.get(1).attr("href"));
-        novelContent.setNext(readpages.get(2).attr("href"));
+        if (readpages.size() == 3) {
+            novelContent.setPre(readpages.get(0).attr("href"));
+            novelContent.setIndex(readpages.get(1).attr("href"));
+            novelContent.setNext(readpages.get(2).attr("href"));
+        } else {
+            novelContent.setPre("");
+            novelContent.setIndex(readpages.get(0).attr("href"));
+            novelContent.setNext(readpages.get(1).attr("href"));
+        }
         return novelContent;
     }
 }

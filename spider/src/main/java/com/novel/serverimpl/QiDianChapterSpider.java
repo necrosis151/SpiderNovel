@@ -9,14 +9,13 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class QiDianChapterSpider extends AbstractSpider implements ChapterSpider {
 //    Map<String, HashMap<String, String>> contexts = NovelSpiderUtil.getContextMap();
 
-    public List<List<Chapter>> getChapterByPart(String url) {
+    public List<List<Chapter>> getChapterByPart(String url, boolean vip) {
         Map<String, String> spiderContext = NovelSpiderUtil.getSpiderContext(url);
         List parts = new ArrayList();
         String result = getHtml(url, spiderContext.get("charset"));
@@ -30,14 +29,17 @@ public class QiDianChapterSpider extends AbstractSpider implements ChapterSpider
                     ) {
                 Chapter chapter = new Chapter();
                 chapter.setTitle(a.text());
-                String chapterURL=a.attr("href");
+                String chapterURL = a.attr("href");
                 chapter.setUrl(chapterURL);
-                if (chapterURL.contains("vip")){
+                if (chapterURL.contains("vip")) {
                     chapter.setVip(true);
-                }else {
+                    if (vip = true) {
+                        chapters.add(chapter);
+                    }
+                } else {
                     chapter.setVip(false);
+                    chapters.add(chapter);
                 }
-                chapters.add(chapter);
             }
             parts.add(chapters);
         }

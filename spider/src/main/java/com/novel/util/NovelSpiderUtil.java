@@ -12,26 +12,27 @@ import java.util.List;
 import java.util.Map;
 
 public class NovelSpiderUtil {
-    private volatile static HashMap<String, HashMap<String, String>> CONTEXT_MAP = new HashMap<>();
+    private volatile static HashMap<String, HashMap<String, String>> CONTEXT_MAP;
 
 
     private NovelSpiderUtil() {
     }
 
-    public static Map<String,HashMap<String,String>> getContextMap() {
-        if (CONTEXT_MAP.size() == 0) {
+    public static Map<String, HashMap<String, String>> getContextMap() {
+        if (CONTEXT_MAP == null) {
             synchronized (NovelSpiderUtil.class) {
-                if (CONTEXT_MAP.size() == 0) {
+                if (CONTEXT_MAP == null) {
                     ini();
                 }
             }
         }
         return CONTEXT_MAP;
     }
-    public static  HashMap<String,String> getSpiderContext(String url){
-        for (String key:getContextMap().keySet()
-             ) {
-            if (url.contains(key)){
+
+    public static HashMap<String, String> getSpiderContext(String url) {
+        for (String key : getContextMap().keySet()
+                ) {
+            if (url.contains(key)) {
                 return getContextMap().get(key);
             }
         }
@@ -39,11 +40,11 @@ public class NovelSpiderUtil {
     }
 
     public static void reloadContext() {
-        CONTEXT_MAP.clear();
+        CONTEXT_MAP = null;
     }
 
     private static void ini() {
-
+        CONTEXT_MAP = new HashMap<>();
         SAXReader reader = new SAXReader();
         Document doc = null;
         InputStream in = NovelSpiderUtil.class.getClassLoader().getResourceAsStream("Spider_Rule.xml");

@@ -7,5 +7,5 @@ import java.util.List;
 import java.util.Map;
 
 public interface ChapterSpider {
-    List<List<Chapter>> getChapterByPart(String url);
+    List<List<Chapter>> getChapterByPart(String url,boolean vip);
 }

@@ -3,13 +3,12 @@ package com.novel.factory;
 import com.novel.util.NovelSpiderUtil;
 
 import java.util.HashMap;
-import java.util.Map;
 
 public class SpiderFactory {
-    public Object getChapterSpider(String url) {
+    public static Object getChapterSpider(String url) {
         HashMap<String, String> SpiderContext = NovelSpiderUtil.getSpiderContext(url);
         if (SpiderContext==null){
-            throw new RuntimeException("²»Ö§³ÖµÄÍøÒ³");
+            throw new RuntimeException("ï¿½ï¿½Ö§ï¿½Öµï¿½ï¿½ï¿½Ò³");
         }
         String spider = SpiderContext.get("ChapterSpider");
         try {
@@ -23,10 +22,10 @@ public class SpiderFactory {
         }
         return null;
     }
-    public Object getContentSpider(String url) {
+    public static Object getContentSpider(String url) {
         HashMap<String, String> SpiderContext = NovelSpiderUtil.getSpiderContext(url);
         if (SpiderContext==null){
-            throw new RuntimeException("²»Ö§³ÖµÄÍøÒ³");
+            throw new RuntimeException("ï¿½ï¿½Ö§ï¿½Öµï¿½ï¿½ï¿½Ò³");
         }
         String spider = SpiderContext.get("ContentSpider");
         try {

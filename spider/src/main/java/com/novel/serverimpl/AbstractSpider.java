@@ -5,7 +5,6 @@ import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 
@@ -13,7 +12,7 @@ import java.io.IOException;
 
 public class AbstractSpider {
     /*
-     * 从URL中获取html文本
+     * 锟斤拷URL锟叫伙拷取html锟侥憋拷
      * */
     public String getHtml(String url,String charset) {
         String result = "";
