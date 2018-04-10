@@ -9,6 +9,7 @@ import com.novel.server.DownLoad;
 import org.junit.Test;
 
 import java.util.List;
+import java.util.concurrent.ExecutorService;
 
 
 public class SpiderTest {
@@ -53,6 +54,7 @@ public class SpiderTest {
         String path = "C:\\Users\\Administrator\\Desktop";
         DownLoad downLoad = new NovelDownload();
         downLoad.downloadChapter(url, path);
+
     }
 
     @Test
@@ -65,6 +67,8 @@ public class SpiderTest {
 
     @Test
     public void callableTest(){
-
+        String url="http://book.zhulang.com/461915/";
+        NovelDownload downLoad = new NovelDownload();
+        downLoad.downloadNovelByExecutorService(url,false);
     }
 }

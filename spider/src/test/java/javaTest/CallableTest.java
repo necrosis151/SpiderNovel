@@ -12,7 +12,8 @@ public class CallableTest implements Callable<String> {
 
     @Override
     public String call() throws Exception {
+        System.out.println(Thread.currentThread().getName()+"test begin");
         Thread.sleep(millis);
-        return Thread.currentThread().getName();
+        return Thread.currentThread().getName()+"over";
     }
 }
