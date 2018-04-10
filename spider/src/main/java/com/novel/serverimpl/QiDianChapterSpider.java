@@ -30,14 +30,16 @@ public class QiDianChapterSpider extends AbstractSpider implements ChapterSpider
                 Chapter chapter = new Chapter();
                 chapter.setTitle(a.text());
                 String chapterURL = a.attr("href");
-                chapter.setUrl(chapterURL);
+                chapter.setUrl("http:" + chapterURL);
                 if (chapterURL.contains("vip")) {
                     chapter.setVip(true);
-                    if (vip = true) {
-                        chapters.add(chapter);
-                    }
                 } else {
                     chapter.setVip(false);
+                }
+                if (vip==true){
+                    chapters.add(chapter);
+                }
+                if (vip==false&&chapter.isVip()==false){
                     chapters.add(chapter);
                 }
             }

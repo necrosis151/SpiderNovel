@@ -11,19 +11,20 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.FutureTask;
+import java.util.concurrent.*;
 
 public class NovelDownload implements DownLoad {
-    private ChapterSpider chapterSpider=null;
-    private ContentSpider contentSpider=null;
-    private void saveTo(String content, String path) {
+    private ChapterSpider chapterSpider = null;
+    private ContentSpider contentSpider = null;
+
+    public void saveTo(String content, String path) {
         File file = new File(path);
         BufferedWriter bw = null;
         try {
             bw = new BufferedWriter(new FileWriter(file));
+            if (content.length()==0){
+                content="非会员无法下载";
+            }
             bw.write(content);
         } catch (IOException e) {
             e.printStackTrace();
@@ -51,6 +52,7 @@ public class NovelDownload implements DownLoad {
         return file;
     }
 
+    //未启用连接池
     @Override
     public String downloadNovel(String url, boolean vip, String path) {
         chapterSpider = (ChapterSpider) SpiderFactory.getChapterSpider(url);
@@ -75,60 +77,93 @@ public class NovelDownload implements DownLoad {
                 saveTo(sb.toString(), file);
             }
         }
-
         return path;
     }
 
-    public String downloadNovelByExecutorService(String url, boolean vip) {
+    public List<String> downloadNovelByExecutorService(String url, boolean vip) {
         chapterSpider = (ChapterSpider) SpiderFactory.getChapterSpider(url);
         contentSpider = (ContentSpider) SpiderFactory.getContentSpider(url);
+        NovelContent novelContent = null;
         List<List<Chapter>> parts = chapterSpider.getChapterByPart(url, vip);
-        List<String> novel=new ArrayList<>();
-        HashMap<String, String> contentlist = new HashMap<>();
-//        NovelContent novelContent = null;
-//        StringBuilder sb = null;
-//        String file = null;
-//        File save = new File(path);
-//        if (!save.exists()) {
-//            save.mkdirs();
-//        }
-        ExecutorService executorService = Executors.newFixedThreadPool(4);
+        List<List<String>> contentTitleList = this.getContentTitleList(parts);
+        HashMap<String, String> contentMap = new HashMap<>();
+        List<String> novel = new ArrayList<>();
+        List<FutureTask<String>> futureTaskList = new ArrayList<>();
+        FutureTask<String> futureTask = null;
+        ExecutorService executorService = Executors.newFixedThreadPool(8);
+        StringBuilder sb = new StringBuilder();
+        //连接池下载
         for (int i = 1; i <= parts.size(); i++) {
             List<Chapter> part = parts.get(i - 1);
             for (Chapter c : part
                     ) {
-                executorService.submit(new FutureTask<String>(new Callable<String>() {
-                    @Override
-                    public String call() {
-                        NovelContent novelContent = contentSpider.getContent(c.getUrl());
-                        StringBuilder sb = new StringBuilder();
-                        String title = novelContent.getTitle();
-                        sb.append(novelContent.getTitle() + "\r\n").append(novelContent.getContent().replaceAll("<p>", "")
-                                .replaceAll("</p>", "\r\n")).append("\r\n").append("\r\n");
-                        contentlist.put(novelContent.getTitle(), sb.toString());
-                        System.out.println(sb);
-                        return title + "over";
-                    }
-                }));
+                novelContent = contentSpider.getContent(c.getUrl());
+                futureTask = new FutureTask<String>(new DownloadCallable(novelContent, contentMap));
+                futureTaskList.add(futureTask);
+                executorService.submit(futureTask);
             }
         }
-        return "novel over";
-//        private String getContentByExecutorService
-//        (List < List < Chapter >> parts, HashMap < String, String > contentlist){
-//            ExecutorService executorService = Executors.newFixedThreadPool(4);
-//
-//        }
+        System.out.println("线程检查");
+        //检测线程是否完结
+        for (FutureTask<String> f : futureTaskList
+                ) {
+            try {
+                System.out.println(f.get());
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
+        }
+        executorService.shutdown();
 
-//        private HashMap<String, String> setContentParts (List < List < Chapter >> parts) {
-//            HashMap<String, String> contentlist = new HashMap<>();
-//            for (List<Chapter> p :
-//                    parts) {
-//                for (Chapter c : p
-//                        ) {
-//                    contentlist.put(c.getTitle(), "");
-//                }
-//            }
-//            return contentlist;
-//        }
+        //赋值
+        for (List<String> p : contentTitleList
+                ) {
+            sb.delete(0, sb.length());
+            for (String key : p
+                    ) {
+                sb.append(contentMap.get(key));
+            }
+            novel.add(sb.toString());
+        }
+
+        return novel;
     }
+
+    private List<List<String>> getContentTitleList(List<List<Chapter>> parts) {
+        List<List<String>> contentTitleList = new ArrayList<>();
+        for (List<Chapter> p : parts
+                ) {
+//            System.out.println("p begin");
+            List<String> temp = new ArrayList<>();
+            for (Chapter c : p) {
+                temp.add(c.getTitle());
+                System.out.println(c.getTitle());
+            }
+            contentTitleList.add(temp);
+        }
+        return contentTitleList;
+    }
+}
+
+class DownloadCallable implements Callable<String> {
+    private NovelContent novelContent;
+    private HashMap<String, String> contentMap;
+
+    public DownloadCallable(NovelContent novelContent, HashMap<String, String> contentMap) {
+        this.novelContent = novelContent;
+        this.contentMap = contentMap;
+    }
+
+    @Override
+    public String call() throws Exception {
+        StringBuilder sb = new StringBuilder();
+        sb.append(novelContent.getTitle() + "\r\n").append(novelContent.getContent().replaceAll("<p>", "")
+                .replaceAll("</p>", "\r\n")).append("\r\n").append("\r\n");
+//        System.out.println(novelContent.getTitle()+sb.length());
+        contentMap.put(novelContent.getTitle(), sb.toString());
+        return novelContent.getTitle() + "完成";
+    }
+
 }

@@ -7,7 +7,6 @@ public class Chapter implements Serializable {
     private String url;
     private boolean vip;
 
-
     public void setVip(boolean vip) {
         this.vip = vip;
     }

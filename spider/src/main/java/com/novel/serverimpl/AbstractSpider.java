@@ -11,20 +11,25 @@ import org.apache.http.util.EntityUtils;
 import java.io.IOException;
 
 public class AbstractSpider {
-    /*
-     * ��URL�л�ȡhtml�ı�
-     * */
-    public String getHtml(String url,String charset) {
+
+    public String getHtml(String url, String charset) {
         String result = "";
 //        CloseableHttpClient httpClient = HttpClientBuilder.create().build();
 //        CloseableHttpResponse httpResponse = null;
         RequestConfig globalConfig = RequestConfig.custom().setCookieSpec(CookieSpecs.IGNORE_COOKIES).build();
         CloseableHttpClient httpClient = HttpClients.custom().setDefaultRequestConfig(globalConfig).build();
-        HttpGet request = new HttpGet(url);
-        CloseableHttpResponse httpResponse=null;
+        CloseableHttpResponse httpResponse = null;
         try {
-            httpResponse = httpClient.execute(new HttpGet(url));
+            for (int i = 1; i <= 5; i++) {
+                try {
+                    httpResponse = httpClient.execute(new HttpGet(url));
+                    break;
+                }catch (Exception e){
+                    System.err.println(url+"尝试第[" + i +  "]次下载失败了！");
+                }
+            }
             result = EntityUtils.toString(httpResponse.getEntity(), charset);
+
         } catch (IOException e) {
             e.printStackTrace();
         }

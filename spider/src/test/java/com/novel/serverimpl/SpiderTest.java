@@ -23,14 +23,14 @@ public class SpiderTest {
 
     @Test
     public void getChapter() {
-        // String url = "http://book.qidian.com/info/1009704712#Catalog";
-        String url = "http://book.zhulang.com/461915/";
+         String url = "http://book.qidian.com/info/1009704712#Catalog";
+//        String url = "http://book.zhulang.com/491745/";
         ChapterSpider spider = (ChapterSpider) new SpiderFactory().getChapterSpider(url);
-        List<List<Chapter>> parts = spider.getChapterByPart(url,true);
+        List<List<Chapter>> parts = spider.getChapterByPart(url, false);
         int i = 1;
         for (List<Chapter> p : parts
                 ) {
-            System.out.println("��" + i + "��");
+            System.out.println("第" + i + "卷");
             i++;
             for (Chapter c : p
                     ) {
@@ -46,6 +46,9 @@ public class SpiderTest {
         ContentSpider spider = (ContentSpider) new SpiderFactory().getContentSpider(url);
         NovelContent content = spider.getContent(url);
         System.out.println(content.getContent());
+        System.out.println(content.getPre());
+        System.out.println(content.getIndex());
+        System.out.println(content.getNext());
     }
 
     @Test
@@ -58,17 +61,25 @@ public class SpiderTest {
     }
 
     @Test
-    public void  downloadNovel_free_part(){
-        String url="http://book.zhulang.com/461915/";
+    public void downloadNovel_free_part() {
+        String url = "http://book.zhulang.com/461915/";
         String path = "C:\\Users\\Administrator\\Desktop\\testNovel";
         DownLoad downLoad = new NovelDownload();
-        downLoad.downloadNovel(url,false,path);
+        downLoad.downloadNovel(url, false, path);
     }
 
     @Test
-    public void callableTest(){
-        String url="http://book.zhulang.com/461915/";
+    public void ExecutorServiceDownload() {
+        String url = "http://book.zhulang.com/307145/";
+//        String url = "https://book.qidian.com/info/1005986994#Catalog";
         NovelDownload downLoad = new NovelDownload();
-        downLoad.downloadNovelByExecutorService(url,false);
+        List<String> novel = downLoad.downloadNovelByExecutorService(url, false);
+
+        for (int i = 0; i < novel.size(); i++) {
+            System.out.println("novel part" + (i+1) + "  begin");
+            downLoad.saveTo(novel.get(i),"C:\\Users\\Administrator\\Desktop\\testNovel"+"\\novel_part" + (i+1)+".txt");
+//            System.out.println(novel.get(i));
+            System.out.println("novel part" + (i+1) + "  over");
+        }
     }
 }

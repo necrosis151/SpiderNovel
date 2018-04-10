@@ -29,10 +29,15 @@ public class QiDianContentSpider extends AbstractSpider implements ContentSpider
         }
         novelContent.setContent(sb.toString());
         Elements readpages = doc.select(SpiderContext.get("novel-readpage"));
-
-        novelContent.setPre(readpages.get(0).attr("href"));
-        novelContent.setIndex(readpages.get(1).attr("href"));
-        novelContent.setNext(readpages.get(2).attr("href"));
+        if (readpages.size() == 3) {
+            novelContent.setPre("http:"+readpages.get(0).attr("href"));
+            novelContent.setIndex("http:"+readpages.get(1).attr("href"));
+            novelContent.setNext("http:"+readpages.get(2).attr("href"));
+        } else {
+            novelContent.setPre("");
+            novelContent.setIndex("http:"+readpages.get(0).attr("href"));
+            novelContent.setNext("http:"+readpages.get(1).attr("href"));
+        }
         return novelContent;
 
     }

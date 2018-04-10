@@ -8,12 +8,12 @@ public class SpiderFactory {
     public static Object getChapterSpider(String url) {
         HashMap<String, String> SpiderContext = NovelSpiderUtil.getSpiderContext(url);
         if (SpiderContext==null){
-            throw new RuntimeException("��֧�ֵ���ҳ");
+            throw new RuntimeException("不支持的网页");
         }
         String spider = SpiderContext.get("ChapterSpider");
         try {
             if (spider == null || spider.equalsIgnoreCase("default") || spider.equals("")) {
-                return Class.forName("com.novel.serverimpl.DefaultSpider").newInstance();
+                return Class.forName("com.novel.serverimpl.DefaultChapterSpider").newInstance();
             } else {
                 return Class.forName(spider).newInstance();
             }
@@ -25,14 +25,14 @@ public class SpiderFactory {
     public static Object getContentSpider(String url) {
         HashMap<String, String> SpiderContext = NovelSpiderUtil.getSpiderContext(url);
         if (SpiderContext==null){
-            throw new RuntimeException("��֧�ֵ���ҳ");
+            throw new RuntimeException("不支持的网页");
         }
         String spider = SpiderContext.get("ContentSpider");
         try {
             if (spider == null || spider.equalsIgnoreCase("default") || spider.equals("")) {
-                return Class.forName(spider).newInstance();
+                return Class.forName("com.novel.serverimpl.DefaultContentSpider").newInstance();
             } else {
-                return Class.forName("com.novel.serverimpl.ZhuLangContentSpider").newInstance();
+                return Class.forName(spider).newInstance();
             }
         } catch (Exception e) {
             e.printStackTrace();

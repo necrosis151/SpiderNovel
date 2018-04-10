@@ -14,7 +14,6 @@ import java.util.Map;
 public class NovelSpiderUtil {
     private volatile static HashMap<String, HashMap<String, String>> CONTEXT_MAP;
 
-
     private NovelSpiderUtil() {
     }
 
