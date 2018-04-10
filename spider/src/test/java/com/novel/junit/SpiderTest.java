@@ -1,4 +1,4 @@
-package com.novel.serverimpl;
+package com.novel.junit;
 
 import com.novel.factory.SpiderFactory;
 import com.novel.model.Chapter;
@@ -25,7 +25,7 @@ public class SpiderTest {
         // String url = "http://book.qidian.com/info/1009704712#Catalog";
         String url = "http://book.zhulang.com/461915/";
         ChapterSpider spider = (ChapterSpider) new SpiderFactory().getChapterSpider(url);
-        List<List<Chapter>> parts = spider.getChapterByPart(url);
+        List<List<Chapter>> parts = spider.getChapterByPart(url,true);
         int i = 1;
         for (List<Chapter> p : parts
                 ) {
@@ -50,8 +50,21 @@ public class SpiderTest {
     @Test
     public void downloadOne() {
         String url = "http://book.zhulang.com/461915/231166.html";
-        String adree = "C:\\Users\\Administrator\\Desktop";
+        String path = "C:\\Users\\Administrator\\Desktop";
         DownLoad downLoad = new NovelDownload();
-        downLoad.downloadChapter(url, adree);
+        downLoad.downloadChapter(url, path);
+    }
+
+    @Test
+    public void  downloadNovel_free_part(){
+        String url="http://book.zhulang.com/461915/";
+        String path = "C:\\Users\\Administrator\\Desktop\\testNovel";
+        DownLoad downLoad = new NovelDownload();
+        downLoad.downloadNovel(url,false,path);
+    }
+
+    @Test
+    public void callableTest(){
+
     }
 }

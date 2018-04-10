@@ -9,5 +9,9 @@
         <module name="spider" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="parents" target="1.8" />
+      <module name="spider" target="1.8" />
+    </bytecodeTargetLevel>
   </component>
 </project>
