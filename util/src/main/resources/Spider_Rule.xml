@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sites>
+    <site>
+        <title>起点中文网</title>
+        <url>qidian.com</url>
+        <charset>UTF-8</charset>
+        <!-- chapter信息-->
+        <ChapterSpider>QiDianChapterSpider</ChapterSpider>
+        <chapters-selector-part>ul[class=cf]</chapters-selector-part>
+        <chapters-selector-chapterlist>li a</chapters-selector-chapterlist>
+        <!-- novelcontent信息-->
+        <ContentSpider>QiDianContentSpider</ContentSpider>
+        <novel-title>h3[class=j_chapterName]</novel-title>
+        <novel-content>div[class=read-content j_readContent] p</novel-content>
+        <novel-readpage>div[class=chapter-control dib-wrap] a</novel-readpage>
+    </site>
+    <site>
+        <title>逐浪小说</title>
+        <url>zhulang.com</url>
+        <charset>UTF-8</charset>
+        <!-- chapter信息-->
+        <ChapterSpider>ZhuLangChapterSpider</ChapterSpider>
+        <chapters-selector-part>div[class=chapter-list]</chapters-selector-part>
+        <chapters-selector-chapterlist>ul li a</chapters-selector-chapterlist>
+        <!-- novelcontent信息-->
+        <ContentSpider>ZhuLangContentSpider</ContentSpider>
+        <novel-title>#read-content h2</novel-title>
+        <novel-content>#read-content p</novel-content>
+        <novel-readpage>div[class=read-page] a</novel-readpage>
+    </site>
+</sites>
