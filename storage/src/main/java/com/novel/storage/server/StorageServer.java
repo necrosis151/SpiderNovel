@@ -11,7 +11,7 @@ public class StorageServer {
         if (SpiderContext == null) {
             throw new RuntimeException("不支持的网页");
         }
-        String spider = SpiderContext.get("IndexSpider");
+        String spider = "com.novel.storage.serverimpl."+SpiderContext.get("Index_Spider");
         try {
             if (spider == null || spider.equalsIgnoreCase("default") || spider.equals("")) {
                 return Class.forName("com.novel.serverimpl.DefaultIndexSpider").newInstance();

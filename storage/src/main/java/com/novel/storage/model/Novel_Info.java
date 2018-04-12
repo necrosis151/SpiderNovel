@@ -11,11 +11,15 @@ public class Novel_Info {
 
     private String type;
 
-    private String lastupdatechapter;
+    private String status;
 
-    private String lastupdatechapterurl;
+    public String getStatus() {
+        return status;
+    }
 
-    private Integer status;
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
     public Integer getId() {
         return id;
@@ -57,27 +61,4 @@ public class Novel_Info {
         this.type = type == null ? null : type.trim();
     }
 
-    public String getLastupdatechapter() {
-        return lastupdatechapter;
-    }
-
-    public void setLastupdatechapter(String lastupdatechapter) {
-        this.lastupdatechapter = lastupdatechapter == null ? null : lastupdatechapter.trim();
-    }
-
-    public String getLastupdatechapterurl() {
-        return lastupdatechapterurl;
-    }
-
-    public void setLastupdatechapterurl(String lastupdatechapterurl) {
-        this.lastupdatechapterurl = lastupdatechapterurl == null ? null : lastupdatechapterurl.trim();
-    }
-
-    public Integer getStatus() {
-        return status;
-    }
-
-    public void setStatus(Integer status) {
-        this.status = status;
-    }
 }
