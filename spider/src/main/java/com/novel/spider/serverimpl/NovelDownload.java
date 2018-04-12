@@ -14,16 +14,15 @@ import java.util.List;
 import java.util.concurrent.*;
 
 public class NovelDownload implements DownLoad {
-    private ChapterSpider chapterSpider = null;
-    private ContentSpider contentSpider = null;
+    private SpiderServer spiderServer = null;
 
     public void saveTo(String content, String path) {
         File file = new File(path);
         BufferedWriter bw = null;
         try {
             bw = new BufferedWriter(new FileWriter(file));
-            if (content.length()==0){
-                content="非会员无法下载";
+            if (content.length() == 0) {
+                content = "非会员无法下载";
             }
             bw.write(content);
         } catch (IOException e) {
@@ -42,8 +41,8 @@ public class NovelDownload implements DownLoad {
 
     @Override
     public String downloadChapter(String url, String path) {
-        ContentSpider spider = (ContentSpider) SpiderServer.getContentSpider(url);
-        NovelContent novelContent = spider.getContent(url);
+        spiderServer = new SpiderServer();
+        NovelContent novelContent = spiderServer.getContent(url);
         StringBuilder sb = new StringBuilder();
         sb.append(novelContent.getTitle() + "\r\n").append(novelContent.getContent().replaceAll("<p>", "").replaceAll("</p>", "\r\n"));
         String file = path + "/" + novelContent.getTitle() + ".txt";
@@ -55,9 +54,8 @@ public class NovelDownload implements DownLoad {
     //未启用连接池
     @Override
     public String downloadNovel(String url, boolean vip, String path) {
-        chapterSpider = (ChapterSpider) SpiderServer.getChapterSpider(url);
-        contentSpider = (ContentSpider) SpiderServer.getContentSpider(url);
-        List<List<Chapter>> parts = chapterSpider.getChapterByPart(url, vip);
+        spiderServer = new SpiderServer();
+        List<List<Chapter>> parts = spiderServer.getChapterByPart(url, vip);
         NovelContent novelContent = null;
         StringBuilder sb = null;
         String file = null;
@@ -70,7 +68,7 @@ public class NovelDownload implements DownLoad {
             sb = new StringBuilder();
             for (Chapter c : part
                     ) {
-                novelContent = contentSpider.getContent(c.getUrl());
+                novelContent = spiderServer.getContent(c.getUrl());
                 sb.append(novelContent.getTitle() + "\r\n").append(novelContent.getContent().replaceAll("<p>", "")
                         .replaceAll("</p>", "\r\n")).append("\r\n").append("\r\n");
                 file = path + "/" + novelContent.getTitle() + ".txt";
@@ -81,10 +79,9 @@ public class NovelDownload implements DownLoad {
     }
 
     public List<String> downloadNovelByExecutorService(String url, boolean vip) {
-        chapterSpider = (ChapterSpider) SpiderServer.getChapterSpider(url);
-        contentSpider = (ContentSpider) SpiderServer.getContentSpider(url);
+        spiderServer = new SpiderServer();
         NovelContent novelContent = null;
-        List<List<Chapter>> parts = chapterSpider.getChapterByPart(url, vip);
+        List<List<Chapter>> parts = spiderServer.getChapterByPart(url, vip);
         List<List<String>> contentTitleList = this.getContentTitleList(parts);
         HashMap<String, String> contentMap = new HashMap<>();
         List<String> novel = new ArrayList<>();
@@ -97,7 +94,7 @@ public class NovelDownload implements DownLoad {
             List<Chapter> part = parts.get(i - 1);
             for (Chapter c : part
                     ) {
-                novelContent = contentSpider.getContent(c.getUrl());
+                novelContent = spiderServer.getContent(c.getUrl());
                 futureTask = new FutureTask<String>(new DownloadCallable(novelContent, contentMap));
                 futureTaskList.add(futureTask);
                 executorService.submit(futureTask);

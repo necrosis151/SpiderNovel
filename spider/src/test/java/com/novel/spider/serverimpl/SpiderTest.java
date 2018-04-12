@@ -24,10 +24,10 @@ public class SpiderTest {
 
     @Test
     public void getChapter() {
-         String url = "http://book.qidian.com/info/1009704712#Catalog";
+        String url = "http://book.qidian.com/info/1009704712#Catalog";
 //        String url = "http://book.zhulang.com/491745/";
-        ChapterSpider spider = (ChapterSpider) SpiderServer.getChapterSpider(url);
-        List<List<Chapter>> parts = spider.getChapterByPart(url, false);
+        SpiderServer spiderServer = new SpiderServer();
+        List<List<Chapter>> parts = spiderServer.getChapterByPart(url, false);
         int i = 1;
         for (List<Chapter> p : parts
                 ) {
@@ -44,8 +44,9 @@ public class SpiderTest {
     public void getContent() {
 //        String url="http://book.zhulang.com/461915/231166.html";
         String url = "https://read.qidian.com/chapter/Gega9H_HNWqXfJNNZ-YUzw2/teVuK9rXReZMs5iq0oQwLQ2";
-        ContentSpider spider = (ContentSpider) SpiderServer.getContentSpider(url);
-        NovelContent content = spider.getContent(url);
+        SpiderServer spiderServer = new SpiderServer();
+
+        NovelContent content = spiderServer.getContent(url);
         System.out.println(content.getContent());
         System.out.println(content.getPre());
         System.out.println(content.getIndex());
@@ -77,10 +78,10 @@ public class SpiderTest {
         List<String> novel = downLoad.downloadNovelByExecutorService(url, false);
 
         for (int i = 0; i < novel.size(); i++) {
-            System.out.println("novel part" + (i+1) + "  begin");
-            downLoad.saveTo(novel.get(i),"C:\\Users\\Administrator\\Desktop\\testNovel"+"\\novel_part" + (i+1)+".txt");
+            System.out.println("novel part" + (i + 1) + "  begin");
+            downLoad.saveTo(novel.get(i), "C:\\Users\\Administrator\\Desktop\\testNovel" + "\\novel_part" + (i + 1) + ".txt");
 //            System.out.println(novel.get(i));
-            System.out.println("novel part" + (i+1) + "  over");
+            System.out.println("novel part" + (i + 1) + "  over");
         }
     }
 }

@@ -13,14 +13,6 @@ public class Novel_Info {
 
     private String status;
 
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
     public Integer getId() {
         return id;
     }
@@ -61,4 +53,11 @@ public class Novel_Info {
         this.type = type == null ? null : type.trim();
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status == null ? null : status.trim();
+    }
 }

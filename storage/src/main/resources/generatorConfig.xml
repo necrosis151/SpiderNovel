@@ -47,7 +47,7 @@
 
         <!-- 指定数据库表，要生成哪些表，就写哪些表，要和数据库中对应，不能写错！ -->
 
-        <table tableName="qidian_novel_info" domainObjectName="Novel_Info" enableCountByExample="false"
+        <table tableName="zhulang_novel_info" domainObjectName="Novel_Info" enableCountByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false"></table>
         <!--

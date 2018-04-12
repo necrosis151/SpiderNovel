@@ -2,7 +2,7 @@ package com.novel.storage.dao;
 
 import com.novel.storage.model.Novel_Info;
 
-public interface Zhulang_Novel_InfoDao {
+public interface Qidian_Novel_InfoMapper {
     int deleteByPrimaryKey(Integer id);
 
     int insert(Novel_Info record);

@@ -1,18 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.novel.storage.dao.Qidian_Novel_InfoDao">
+<mapper namespace="com.novel.storage.dao.Qidian_Novel_InfoMapper">
   <resultMap id="BaseResultMap" type="com.novel.storage.model.Novel_Info">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="author" jdbcType="VARCHAR" property="author" />
     <result column="url" jdbcType="VARCHAR" property="url" />
     <result column="type" jdbcType="VARCHAR" property="type" />
-    <result column="lastUpdateChapter" jdbcType="VARCHAR" property="lastupdatechapter" />
-    <result column="lastUpdateChapterUrl" jdbcType="VARCHAR" property="lastupdatechapterurl" />
-    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, name, author, url, type, lastUpdateChapter, lastUpdateChapterUrl, status
+    id, name, author, url, type, status
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -26,11 +24,9 @@
   </delete>
   <insert id="insert" parameterType="com.novel.storage.model.Novel_Info">
     insert into qidian_novel_info (id, name, author, 
-      url, type, lastUpdateChapter, 
-      lastUpdateChapterUrl, status)
+      url, type, status)
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{author,jdbcType=VARCHAR}, 
-      #{url,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{lastupdatechapter,jdbcType=VARCHAR}, 
-      #{lastupdatechapterurl,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER})
+      #{url,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.novel.storage.model.Novel_Info">
     insert into qidian_novel_info
@@ -49,12 +45,6 @@
       </if>
       <if test="type != null">
         type,
-      </if>
-      <if test="lastupdatechapter != null">
-        lastUpdateChapter,
-      </if>
-      <if test="lastupdatechapterurl != null">
-        lastUpdateChapterUrl,
       </if>
       <if test="status != null">
         status,
@@ -76,14 +66,8 @@
       <if test="type != null">
         #{type,jdbcType=VARCHAR},
       </if>
-      <if test="lastupdatechapter != null">
-        #{lastupdatechapter,jdbcType=VARCHAR},
-      </if>
-      <if test="lastupdatechapterurl != null">
-        #{lastupdatechapterurl,jdbcType=VARCHAR},
-      </if>
       <if test="status != null">
-        #{status,jdbcType=INTEGER},
+        #{status,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -102,14 +86,8 @@
       <if test="type != null">
         type = #{type,jdbcType=VARCHAR},
       </if>
-      <if test="lastupdatechapter != null">
-        lastUpdateChapter = #{lastupdatechapter,jdbcType=VARCHAR},
-      </if>
-      <if test="lastupdatechapterurl != null">
-        lastUpdateChapterUrl = #{lastupdatechapterurl,jdbcType=VARCHAR},
-      </if>
       <if test="status != null">
-        status = #{status,jdbcType=INTEGER},
+        status = #{status,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -120,9 +98,7 @@
       author = #{author,jdbcType=VARCHAR},
       url = #{url,jdbcType=VARCHAR},
       type = #{type,jdbcType=VARCHAR},
-      lastUpdateChapter = #{lastupdatechapter,jdbcType=VARCHAR},
-      lastUpdateChapterUrl = #{lastupdatechapterurl,jdbcType=VARCHAR},
-      status = #{status,jdbcType=INTEGER}
+      status = #{status,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

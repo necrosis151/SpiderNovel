@@ -1,13 +1,10 @@
 package com.novel.storage.serverimpl;
 
-import com.novel.storage.model.Novel_Info;
 import com.novel.storage.server.StorageServer;
 import com.novel.storage.serverimpl.storageInterface.StorageSpider;
 import org.junit.Test;
 
 import java.util.List;
-
-import static org.junit.Assert.*;
 
 public class StorageSpiderTest {
 
