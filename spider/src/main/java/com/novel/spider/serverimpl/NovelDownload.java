@@ -1,11 +1,11 @@
 package com.novel.spider.serverimpl;
 
-import com.novel.spider.factory.SpiderFactory;
+import com.novel.spider.server.SpiderServer;
 import com.novel.spider.model.Chapter;
 import com.novel.spider.model.NovelContent;
-import com.novel.spider.server.ChapterSpider;
-import com.novel.spider.server.ContentSpider;
-import com.novel.spider.server.DownLoad;
+import com.novel.spider.serverimpl.spiderinterface.ChapterSpider;
+import com.novel.spider.serverimpl.spiderinterface.ContentSpider;
+import com.novel.spider.serverimpl.spiderinterface.DownLoad;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -42,7 +42,7 @@ public class NovelDownload implements DownLoad {
 
     @Override
     public String downloadChapter(String url, String path) {
-        ContentSpider spider = (ContentSpider) SpiderFactory.getContentSpider(url);
+        ContentSpider spider = (ContentSpider) SpiderServer.getContentSpider(url);
         NovelContent novelContent = spider.getContent(url);
         StringBuilder sb = new StringBuilder();
         sb.append(novelContent.getTitle() + "\r\n").append(novelContent.getContent().replaceAll("<p>", "").replaceAll("</p>", "\r\n"));
@@ -55,8 +55,8 @@ public class NovelDownload implements DownLoad {
     //未启用连接池
     @Override
     public String downloadNovel(String url, boolean vip, String path) {
-        chapterSpider = (ChapterSpider) SpiderFactory.getChapterSpider(url);
-        contentSpider = (ContentSpider) SpiderFactory.getContentSpider(url);
+        chapterSpider = (ChapterSpider) SpiderServer.getChapterSpider(url);
+        contentSpider = (ContentSpider) SpiderServer.getContentSpider(url);
         List<List<Chapter>> parts = chapterSpider.getChapterByPart(url, vip);
         NovelContent novelContent = null;
         StringBuilder sb = null;
@@ -81,8 +81,8 @@ public class NovelDownload implements DownLoad {
     }
 
     public List<String> downloadNovelByExecutorService(String url, boolean vip) {
-        chapterSpider = (ChapterSpider) SpiderFactory.getChapterSpider(url);
-        contentSpider = (ContentSpider) SpiderFactory.getContentSpider(url);
+        chapterSpider = (ChapterSpider) SpiderServer.getChapterSpider(url);
+        contentSpider = (ContentSpider) SpiderServer.getContentSpider(url);
         NovelContent novelContent = null;
         List<List<Chapter>> parts = chapterSpider.getChapterByPart(url, vip);
         List<List<String>> contentTitleList = this.getContentTitleList(parts);

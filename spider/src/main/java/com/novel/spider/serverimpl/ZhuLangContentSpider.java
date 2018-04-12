@@ -1,9 +1,10 @@
 package com.novel.spider.serverimpl;
 
+import com.novel.util.AbstractSpider;
 import com.novel.util.SpiderRuleReader;
 import org.jsoup.nodes.Document;
 import com.novel.spider.model.NovelContent;
-import com.novel.spider.server.ContentSpider;
+import com.novel.spider.serverimpl.spiderinterface.ContentSpider;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -11,12 +12,12 @@ import org.jsoup.select.Elements;
 
 import java.util.HashMap;
 
-public class ZhuLangContentSpider extends AbstractSpider implements ContentSpider {
+public class ZhuLangContentSpider implements ContentSpider {
 
     @Override
     public NovelContent getContent(String url) {
         HashMap<String, String> SpiderContext = SpiderRuleReader.getSpiderContext(url);
-        String result = getHtml(url, SpiderContext.get("charset"));
+        String result = AbstractSpider.getHtml(url, SpiderContext.get("charset"));
         Document doc = Jsoup.parse(result);
         NovelContent novelContent = new NovelContent();
         Elements noveltitle = doc.select(SpiderContext.get("novel-title"));

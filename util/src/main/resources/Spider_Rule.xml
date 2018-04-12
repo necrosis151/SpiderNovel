@@ -14,6 +14,8 @@
         <novel-title>h3[class=j_chapterName]</novel-title>
         <novel-content>div[class=read-content j_readContent] p</novel-content>
         <novel-readpage>div[class=chapter-control dib-wrap] a</novel-readpage>
+        <!-- novelindex-->
+        <index></index>
     </site>
     <site>
         <title>逐浪小说</title>

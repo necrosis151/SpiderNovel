@@ -1,16 +1,17 @@
-package com.novel.spider.factory;
+package com.novel.spider.server;
 
 import com.novel.util.SpiderRuleReader;
 
 import java.util.HashMap;
 
-public class SpiderFactory {
+public class SpiderServer {
     public static Object getChapterSpider(String url) {
         HashMap<String, String> SpiderContext = SpiderRuleReader.getSpiderContext(url);
         if (SpiderContext==null){
             throw new RuntimeException("不支持的网页");
         }
-        String spider = SpiderContext.get("ChapterSpider");
+        String spider = "com.novel.spider.serverimpl."+SpiderContext.get("ChapterSpider");
+//        System.out.println(spider);
         try {
             if (spider == null || spider.equalsIgnoreCase("default") || spider.equals("")) {
                 return Class.forName("com.novel.serverimpl.DefaultChapterSpider").newInstance();
@@ -27,7 +28,7 @@ public class SpiderFactory {
         if (SpiderContext==null){
             throw new RuntimeException("不支持的网页");
         }
-        String spider = SpiderContext.get("ContentSpider");
+        String spider = "com.novel.spider.serverimpl."+SpiderContext.get("ContentSpider");
         try {
             if (spider == null || spider.equalsIgnoreCase("default") || spider.equals("")) {
                 return Class.forName("com.novel.serverimpl.DefaultContentSpider").newInstance();
@@ -41,7 +42,7 @@ public class SpiderFactory {
     }
 
 //    public static void main(String[] args) {
-//        SpiderFactory sf=new SpiderFactory();
+//        SpiderServer sf=new SpiderServer();
 //       boolean a= sf.getChapterSpider("qidian.com") instanceof IChapter;
 //        System.out.println(a);
 //    }

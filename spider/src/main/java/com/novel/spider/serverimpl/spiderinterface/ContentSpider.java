@@ -1,4 +1,4 @@
-package com.novel.spider.server;
+package com.novel.spider.serverimpl.spiderinterface;
 
 import com.novel.spider.model.NovelContent;
 

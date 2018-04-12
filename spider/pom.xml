@@ -13,8 +13,7 @@
 
     <properties>
         <jsoup.version>1.9.2</jsoup.version>
-        <httpcomponents.version>4.5.2</httpcomponents.version>
-    </properties>
+          </properties>
 
     <dependencies>
         <dependency>
@@ -22,11 +21,7 @@
             <artifactId>jsoup</artifactId>
             <version>${jsoup.version}</version>
         </dependency>
-        <dependency>
-            <groupId>org.apache.httpcomponents</groupId>
-            <artifactId>httpclient</artifactId>
-            <version>${httpcomponents.version}</version>
-        </dependency>
+
         <dependency>
             <groupId>dom4j</groupId>
             <artifactId>dom4j</artifactId>

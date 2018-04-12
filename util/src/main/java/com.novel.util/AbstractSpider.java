@@ -1,4 +1,4 @@
-package com.novel.spider.serverimpl;
+package com.novel.util;
 
 import org.apache.http.client.config.CookieSpecs;
 import org.apache.http.client.config.RequestConfig;
@@ -12,7 +12,7 @@ import java.io.IOException;
 
 public class AbstractSpider {
 
-    public String getHtml(String url, String charset) {
+    public static String getHtml(String url, String charset) {
         String result = "";
 //        CloseableHttpClient httpClient = HttpClientBuilder.create().build();
 //        CloseableHttpResponse httpResponse = null;

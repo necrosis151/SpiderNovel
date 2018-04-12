@@ -9,12 +9,20 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
+    <properties>
+        <httpcomponents.version>4.5.2</httpcomponents.version>
+    </properties>
     <artifactId>util</artifactId>
     <dependencies>
         <dependency>
             <groupId>dom4j</groupId>
             <artifactId>dom4j</artifactId>
             <version>1.6.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>${httpcomponents.version}</version>
         </dependency>
     </dependencies>
 

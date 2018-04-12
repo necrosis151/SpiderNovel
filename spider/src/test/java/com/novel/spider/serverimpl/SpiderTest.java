@@ -1,11 +1,14 @@
 package com.novel.spider.serverimpl;
 
-import com.novel.spider.factory.SpiderFactory;
+
 import com.novel.spider.model.Chapter;
 import com.novel.spider.model.NovelContent;
-import com.novel.spider.server.ChapterSpider;
-import com.novel.spider.server.ContentSpider;
-import com.novel.spider.server.DownLoad;
+
+import com.novel.spider.server.SpiderServer;
+import com.novel.spider.serverimpl.spiderinterface.ChapterSpider;
+import com.novel.spider.serverimpl.spiderinterface.ContentSpider;
+import com.novel.spider.serverimpl.spiderinterface.DownLoad;
+import com.novel.util.AbstractSpider;
 import org.junit.Test;
 
 import java.util.List;
@@ -15,8 +18,7 @@ public class SpiderTest {
 
     @Test
     public void getHtml() {
-        AbstractSpider spider = new AbstractSpider();
-        System.out.println(spider.getHtml("http://book.qidian.com/info/1009704712#Catalog", "UTF-8"));
+        System.out.println(AbstractSpider.getHtml("http://book.qidian.com/info/1009704712#Catalog", "UTF-8"));
 
     }
 
@@ -24,7 +26,7 @@ public class SpiderTest {
     public void getChapter() {
          String url = "http://book.qidian.com/info/1009704712#Catalog";
 //        String url = "http://book.zhulang.com/491745/";
-        ChapterSpider spider = (ChapterSpider) new SpiderFactory().getChapterSpider(url);
+        ChapterSpider spider = (ChapterSpider) SpiderServer.getChapterSpider(url);
         List<List<Chapter>> parts = spider.getChapterByPart(url, false);
         int i = 1;
         for (List<Chapter> p : parts
@@ -42,7 +44,7 @@ public class SpiderTest {
     public void getContent() {
 //        String url="http://book.zhulang.com/461915/231166.html";
         String url = "https://read.qidian.com/chapter/Gega9H_HNWqXfJNNZ-YUzw2/teVuK9rXReZMs5iq0oQwLQ2";
-        ContentSpider spider = (ContentSpider) new SpiderFactory().getContentSpider(url);
+        ContentSpider spider = (ContentSpider) SpiderServer.getContentSpider(url);
         NovelContent content = spider.getContent(url);
         System.out.println(content.getContent());
         System.out.println(content.getPre());

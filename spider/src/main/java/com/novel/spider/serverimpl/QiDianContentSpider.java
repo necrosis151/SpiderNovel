@@ -1,7 +1,8 @@
 package com.novel.spider.serverimpl;
 
 import com.novel.spider.model.NovelContent;
-import com.novel.spider.server.ContentSpider;
+import com.novel.spider.serverimpl.spiderinterface.ContentSpider;
+import com.novel.util.AbstractSpider;
 import com.novel.util.SpiderRuleReader;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -10,11 +11,11 @@ import org.jsoup.select.Elements;
 
 import java.util.HashMap;
 
-public class QiDianContentSpider extends AbstractSpider implements ContentSpider {
+public class QiDianContentSpider implements ContentSpider {
     @Override
     public NovelContent getContent(String url) {
         HashMap<String, String> SpiderContext = SpiderRuleReader.getSpiderContext(url);
-        String result = getHtml(url, SpiderContext.get("charset"));
+        String result = AbstractSpider.getHtml(url, SpiderContext.get("charset"));
         Document doc = Jsoup.parse(result);
         NovelContent novelContent = new NovelContent();
         Elements noveltitle = doc.select(SpiderContext.get("novel-title"));
