@@ -21,21 +21,23 @@ public class Qidian_StorageSpider implements StorageSpider {
         spiderContext = SpiderRuleReader.getSpiderContext(url);
         String html = AbstractSpider.getHtml(url, spiderContext.get("charset"));
         Document doc = Jsoup.parse(html);
-        Elements novel_info_list = doc.select(spiderContext.get("novel_info"));
-        Novel_Info novel = new Novel_Info();
+        Elements novel_infos = doc.select(spiderContext.get("novel_info"));
+        Novel_Info novel = null;
         List<Novel_Info> infoList = new ArrayList<>();
         Elements temp = null;
-        for (Element n : novel_info_list
+        for (Element n : novel_infos
                 ) {
+            novel = new Novel_Info();
             temp = n.select("h4");
             novel.setName(temp.text());
-            novel.setUrl("http:" + temp.select("a").attr("href"));
+            url = temp.select("a").attr("href");
+            novel.setUrl("http:" + url + "#Catalog");
 //            System.out.println(novel.getUrl());
-            novel.setId(Integer.parseInt(novel.getUrl().substring(novel.getUrl().lastIndexOf("/") + 1)));
-            temp = n.select("p[class=author] a");
-            novel.setAuthor(temp.get(0).text());
-            novel.setType(temp.get(1).text());
-            novel.setStatus(temp.get(2).select("span").text());
+            novel.setId(Integer.parseInt(url.substring(url.lastIndexOf("/") + 1)));
+            temp = n.select("p[class=author]");
+            novel.setAuthor(temp.select("a").get(0).text());
+            novel.setType(temp.select("a").get(1).text());
+            novel.setStatus(temp.select("span").text());
             infoList.add(novel);
         }
         return infoList;
@@ -46,12 +48,18 @@ public class Qidian_StorageSpider implements StorageSpider {
         spiderContext = SpiderRuleReader.getSpiderContext(url);
         String html = AbstractSpider.getHtml(url, spiderContext.get("charset"));
         Document doc = Jsoup.parse(html);
-        String temp = doc.select("a[class=lbf-pagination-next]").attr("href");
-        if (temp.equals("javascript:;")) {
-            return "";
-        } else {
-            return "http:" + temp;
+        String temp = doc.select("a[class=lbf-pagination-page  lbf-pagination-current]").attr("href");
+        Elements as = doc.select("ul[class=lbf-pagination-item-list] a");
+        for (int i = 0; i < as.size() - 1; i++) {
+            if (temp.equals(as.get(i).attr("href"))) {
+                temp = as.get(i + 1).attr("href");
+
+                break;
+
+            }
         }
+        return "http:" + temp;
+
 
     }
 

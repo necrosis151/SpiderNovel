@@ -15,7 +15,8 @@
         <novel-content>div[class=read-content j_readContent] p</novel-content>
         <novel-readpage>div[class=chapter-control dib-wrap] a</novel-readpage>
         <!-- novelindex-->
-        <index></index>
+        <Index_Spider>Qidian_StorageSpider</Index_Spider>
+        <novel_info>div[class=book-mid-info]</novel_info>
     </site>
     <site>
         <title>逐浪小说</title>
