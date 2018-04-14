@@ -11,7 +11,7 @@ import org.jsoup.select.Elements;
 
 import java.util.HashMap;
 
-public class QiDianContentSpider implements ContentSpider {
+public class QidianContentSpider implements ContentSpider {
     @Override
     public NovelContent getContent(String url) {
         HashMap<String, String> SpiderContext = SpiderRuleReader.getSpiderContext(url);

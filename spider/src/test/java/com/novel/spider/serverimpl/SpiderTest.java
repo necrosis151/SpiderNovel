@@ -3,8 +3,6 @@ package com.novel.spider.serverimpl;
 
 import com.novel.spider.model.Chapter;
 import com.novel.spider.model.NovelContent;
-
-import com.novel.spider.server.spiderFactory.AbstractSpider;
 import com.novel.spider.server.SpiderServer;
 import com.novel.spider.serverimpl.spiderinterface.DownLoad;
 import org.junit.Test;
@@ -24,8 +22,7 @@ public class SpiderTest {
     public void getChapter() {
         String url = "http://book.qidian.com/info/1009704712#Catalog";
 //        String url = "http://book.zhulang.com/491745/";
-        AbstractSpider spider = SpiderServer.getSpider(url);
-        List<List<Chapter>> parts = spider.getChapterByPart(url, false);
+        List<List<Chapter>> parts = SpiderServer.getChapters(url,false);
         int i = 1;
         for (List<Chapter> p : parts
                 ) {
@@ -42,9 +39,7 @@ public class SpiderTest {
     public void getContent() {
 //        String url="http://book.zhulang.com/461915/231166.html";
         String url = "https://read.qidian.com/chapter/Gega9H_HNWqXfJNNZ-YUzw2/teVuK9rXReZMs5iq0oQwLQ2";
-        AbstractSpider spider = SpiderServer.getSpider(url);
-
-        NovelContent content = spider.getContent(url);
+        NovelContent content = SpiderServer.getContent(url);
         System.out.println(content.getContent());
         System.out.println(content.getPre());
         System.out.println(content.getIndex());

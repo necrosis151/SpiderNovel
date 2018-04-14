@@ -1,10 +1,10 @@
 package com.novel.spider.serverimpl;
 
-import com.novel.spider.server.spiderFactory.AbstractSpider;
 import com.novel.spider.model.Chapter;
 import com.novel.spider.model.NovelContent;
 import com.novel.spider.server.SpiderServer;
 import com.novel.spider.serverimpl.spiderinterface.DownLoad;
+import com.novel.util.AbstractSpider;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -14,7 +14,6 @@ import java.util.concurrent.*;
 
 public class NovelDownload implements DownLoad {
     private AbstractSpider spider = null;
-
     public void saveTo(String content, String path) {
         File file = new File(path);
         BufferedWriter bw = null;
@@ -40,8 +39,7 @@ public class NovelDownload implements DownLoad {
 
     @Override
     public String downloadChapter(String url, String path) {
-        spider = SpiderServer.getSpider(url);
-        NovelContent novelContent =spider.getContent(url);
+        NovelContent novelContent =SpiderServer.getContent(url);
         StringBuilder sb = new StringBuilder();
         sb.append(novelContent.getTitle() + "\r\n").append(novelContent.getContent().replaceAll("<p>", "").replaceAll("</p>", "\r\n"));
         String file = path + "/" + novelContent.getTitle() + ".txt";
@@ -53,8 +51,7 @@ public class NovelDownload implements DownLoad {
     //未启用连接池
     @Override
     public String downloadNovel(String url, boolean vip, String path) {
-        spider = SpiderServer.getSpider(url);
-        List<List<Chapter>> parts = spider.getChapterByPart(url, vip);
+        List<List<Chapter>> parts = SpiderServer.getChapters(url, vip);
         NovelContent novelContent = null;
         StringBuilder sb = null;
         String file = null;
@@ -67,7 +64,7 @@ public class NovelDownload implements DownLoad {
             sb = new StringBuilder();
             for (Chapter c : part
                     ) {
-                novelContent = spider.getContent(url);
+                novelContent = SpiderServer.getContent(url);
                 sb.append(novelContent.getTitle() + "\r\n").append(novelContent.getContent().replaceAll("<p>", "")
                         .replaceAll("</p>", "\r\n")).append("\r\n").append("\r\n");
                 file = path + "/" + novelContent.getTitle() + ".txt";
@@ -78,9 +75,8 @@ public class NovelDownload implements DownLoad {
     }
 
     public List<String> downloadNovelByExecutorService(String url, boolean vip) {
-        spider=SpiderServer.getSpider(url);
         NovelContent novelContent = null;
-        List<List<Chapter>> parts = spider.getChapterByPart(url, vip);
+        List<List<Chapter>> parts = SpiderServer.getChapters(url, vip);
         List<List<String>> contentTitleList = this.getContentTitleList(parts);
         HashMap<String, String> contentMap = new HashMap<>();
         List<String> novel = new ArrayList<>();
@@ -93,7 +89,7 @@ public class NovelDownload implements DownLoad {
             List<Chapter> part = parts.get(i - 1);
             for (Chapter c : part
                     ) {
-                novelContent = spider.getContent(c.getUrl());
+                novelContent = SpiderServer.getContent(c.getUrl());
                 futureTask = new FutureTask<String>(new DownloadCallable(novelContent, contentMap));
                 futureTaskList.add(futureTask);
                 executorService.submit(futureTask);

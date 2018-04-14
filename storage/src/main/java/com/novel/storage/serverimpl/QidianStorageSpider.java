@@ -13,11 +13,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class Qidian_StorageSpider implements StorageSpider {
+public class QidianStorageSpider implements StorageSpider {
     private HashMap<String, String> spiderContext = null;
 
     @Override
-    public List<Novel_Info> getInfo(String url) {
+    public List<Novel_Info> getInfos(String url) {
         spiderContext =  SpiderRuleReader.getSpiderContext(url);
         String html = AbstractSpider.getHtml(url, spiderContext.get("charset"));
         Document doc = Jsoup.parse(html);
@@ -36,7 +36,7 @@ public class Qidian_StorageSpider implements StorageSpider {
             novel.setId(Integer.parseInt(url.substring(url.lastIndexOf("/") + 1)));
             temp = n.select("p[class=author]");
             novel.setAuthor(temp.select("a").get(0).text());
-            novel.setType(temp.select("a").get(1).text());
+            novel.setType(temp.select("a").get(2).text());
             novel.setStatus(temp.select("span").text());
             infoList.add(novel);
         }
@@ -49,18 +49,17 @@ public class Qidian_StorageSpider implements StorageSpider {
         String html = AbstractSpider.getHtml(url, spiderContext.get("charset"));
         Document doc = Jsoup.parse(html);
         String temp = doc.select("a[class=lbf-pagination-page  lbf-pagination-current]").attr("href");
+        if (temp.equals("javascript:;")){
+            return "";
+        }
         Elements as = doc.select("ul[class=lbf-pagination-item-list] a");
         for (int i = 0; i < as.size() - 1; i++) {
             if (temp.equals(as.get(i).attr("href"))) {
                 temp = as.get(i + 1).attr("href");
-
                 break;
-
             }
         }
         return "http:" + temp;
-
-
     }
 
 
