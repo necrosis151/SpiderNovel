@@ -18,7 +18,7 @@ public class Qidian_StorageSpider implements StorageSpider {
 
     @Override
     public List<Novel_Info> getInfo(String url) {
-        spiderContext = SpiderRuleReader.getSpiderContext(url);
+        spiderContext =  SpiderRuleReader.getSpiderContext(url);
         String html = AbstractSpider.getHtml(url, spiderContext.get("charset"));
         Document doc = Jsoup.parse(html);
         Elements novel_infos = doc.select(spiderContext.get("novel_info"));

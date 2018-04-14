@@ -7,7 +7,7 @@ import java.util.HashMap;
 public class StorageServer {
     private static HashMap<String, String> SpiderContext=null;
     public static Object getIndexSpider(String url) {
-        SpiderContext = SpiderRuleReader.getSpiderContext(url);
+        SpiderContext =  SpiderRuleReader.getSpiderContext(url);
         if (SpiderContext == null) {
             throw new RuntimeException("不支持的网页");
         }

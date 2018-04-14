@@ -14,7 +14,6 @@ import java.util.List;
 import java.util.Map;
 
 public class QiDianChapterSpider  implements ChapterSpider {
-//    Map<String, HashMap<String, String>> contexts = SpiderRuleReader.getContextMap();
 
     public List<List<Chapter>> getChapterByPart(String url, boolean vip) {
         Map<String, String> spiderContext = SpiderRuleReader.getSpiderContext(url);

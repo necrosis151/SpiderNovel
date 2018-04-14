@@ -12,15 +12,15 @@ import java.util.List;
 import java.util.Map;
 
 public class SpiderRuleReader {
-    private volatile static HashMap<String, HashMap<String, String>> CONTEXT_MAP;
+    private static HashMap<String, HashMap<String, String>> CONTEXT_MAP = new HashMap<>();
 
     private SpiderRuleReader() {
     }
 
     public static Map<String, HashMap<String, String>> getContextMap() {
-        if (CONTEXT_MAP == null) {
+        if (CONTEXT_MAP.size() == 0) {
             synchronized (SpiderRuleReader.class) {
-                if (CONTEXT_MAP == null) {
+                if (CONTEXT_MAP.size() == 0) {
                     ini();
                 }
             }
@@ -35,15 +35,14 @@ public class SpiderRuleReader {
                 return getContextMap().get(key);
             }
         }
-        return null;
+        throw new RuntimeException("不支持的网页");
     }
 
     public static void reloadContext() {
-        CONTEXT_MAP = null;
+        CONTEXT_MAP.clear();
     }
 
     private static void ini() {
-        CONTEXT_MAP = new HashMap<>();
         SAXReader reader = new SAXReader();
         Document doc = null;
         InputStream in = SpiderRuleReader.class.getClassLoader().getResourceAsStream("Spider_Rule.xml");
