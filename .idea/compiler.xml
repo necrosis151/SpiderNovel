@@ -9,7 +9,7 @@
         <module name="spider" />
         <module name="storage" />
         <module name="util" />
-        <module name="web" />
+        <module name="webapp" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -18,6 +18,7 @@
       <module name="storage" target="1.8" />
       <module name="util" target="1.8" />
       <module name="web" target="1.8" />
+      <module name="webapp" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>
