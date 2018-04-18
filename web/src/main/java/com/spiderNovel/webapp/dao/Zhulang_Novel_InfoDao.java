@@ -1,8 +1,8 @@
-package com.novel.storage.dao;
+package com.spiderNovel.webapp.dao;
 
 import com.novel.storage.model.Novel_Info;
 
-public interface Qidian_Novel_InfoMapper {
+public interface Zhulang_Novel_InfoDao {
     int deleteByPrimaryKey(Integer id);
 
     int insert(Novel_Info record);

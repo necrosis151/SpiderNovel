@@ -12,6 +12,7 @@
         <module>spider</module>
         <module>util</module>
         <module>storage</module>
+        <module>web</module>
     </modules>
 
     <build>

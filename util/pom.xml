@@ -13,6 +13,31 @@
         <httpcomponents.version>4.5.2</httpcomponents.version>
     </properties>
     <artifactId>util</artifactId>
+    <build> <!--配置打包时不过滤非java文件开始  -->
+        <!--说明，在进行模块化开发打jar包时，maven会将非java文件过滤掉，
+        xml,properties配置文件等，但是这些文件又是必需的，
+        使用此配置可以在打包时将不会过滤这些必需的配置文件。
+        -->
+        <resources>
+            <resource>
+                <directory>src/main/java</directory>
+                <includes>
+                    <include>**/*.properties</include>
+                    <include>**/*.xml</include>
+                </includes>
+                <filtering>false</filtering>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>**/*.properties</include>
+                    <include>**/*.xml</include>
+                </includes>
+                <filtering>false</filtering>
+            </resource>
+        </resources>
+        <!--配置打包时不过滤非java文件结束 -->
+    </build>
     <dependencies>
         <dependency>
             <groupId>dom4j</groupId>

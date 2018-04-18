@@ -41,7 +41,7 @@
 
         <!-- targetPackage：mapper接口生成的位置，重要！！ -->
         <javaClientGenerator type="XMLMAPPER"
-                             targetPackage="com.novel.storage.dao" targetProject=".\src/main/java">
+                             targetPackage="com.spiderNovel.webapp.dao" targetProject=".\src/main/java">
             <property name="enableSubPackages" value="false"/>
         </javaClientGenerator>
 
