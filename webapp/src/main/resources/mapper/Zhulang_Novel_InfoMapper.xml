@@ -18,6 +18,25 @@
     from zhulang_novel_info
     where id = #{id,jdbcType=INTEGER}
   </select>
+  <insert id="saveOrUpdate">
+    <selectKey order="BEFORE" resultType="int" keyProperty="count">
+      select count(*) from zhulang_novel_info where id=#{id}
+    </selectKey>
+    <if test="count>0">
+      update zhulang_novel_info set name = #{name,jdbcType=VARCHAR},
+      author = #{author,jdbcType=VARCHAR},
+      url = #{url,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR}
+      where id = #{id,jdbcType=INTEGER}
+    </if>
+    <if test="count=0=">
+      insert into zhulang_novel_info (id, name, author,
+      url, type, status)
+      values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{author,jdbcType=VARCHAR},
+      #{url,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR})
+    </if>
+  </insert>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from zhulang_novel_info
     where id = #{id,jdbcType=INTEGER}

@@ -15,7 +15,6 @@ import java.util.HashMap;
 import java.util.List;
 
 @Component
-@Lazy(false)
 
 public class NovelIndexServerImpl implements NovelIndexServer {
     public SpringContextsUtil getSpringContextsUtil() {
@@ -35,7 +34,7 @@ public class NovelIndexServerImpl implements NovelIndexServer {
         List<Novel_Info> infoList = StorageServer.getNovelInfos(url);
         String beanName = spiderContext.get("novel_infoDao");
         System.out.println(springContextsUtil.getBean(beanName).getClass());
-        Method method = ReflectionUtils.findMethod(springContextsUtil.getBean(beanName).getClass(), "insert", Novel_Info.class);
+        Method method = ReflectionUtils.findMethod(springContextsUtil.getBean(beanName).getClass(), "saveOrUpdate", Novel_Info.class);
         for (Novel_Info n : infoList
                 ) {
             ReflectionUtils.invokeMethod(method, springContextsUtil.getBean(beanName), n);
