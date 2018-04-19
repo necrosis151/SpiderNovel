@@ -15,6 +15,7 @@
         <novel-readpage>div[class=chapter-control dib-wrap] a</novel-readpage>
         <!-- novelindex-->
         <novel_info>div[class=book-mid-info]</novel_info>
+        <novel_infoDao>qidian_Novel_InfoDao</novel_infoDao>
     </site>
     <site>
         <title>逐浪小说</title>
@@ -30,5 +31,6 @@
         <novel-readpage>div[class=read-page] a</novel-readpage>
         !-- novelindex-->
         <novel_info>table[class=booklist] tbody tr </novel_info>
+        <novel_infoDao>zhulang_Novel_InfoDao</novel_infoDao>
     </site>
 </sites>
