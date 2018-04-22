@@ -4,13 +4,15 @@
        xmlns:context="http://www.springframework.org/schema/context"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
     <!-- 添加注解驱动 -->
+    <mvc:resources mapping="/js/**" location="/js/"/>
+    <mvc:resources mapping="/js/jquery-easyui-1.5.4.5/**" location="/js/jquery-easyui-1.5.4.5/"/>
+
     <mvc:annotation-driven/>
 
     <!-- 启动JSON格式的配置 -->
 
     <mvc:default-servlet-handler/>
-
-    <!-- 设置使用注解的类所在的包 -->
+      <!-- 设置使用注解的类所在的包 -->
     <context:component-scan base-package="com.spiderNovel.webapp.controller"/>
     <!-- 定义跳转的文件的前后缀 ，视图模式配置 -->
     <bean

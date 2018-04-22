@@ -2,7 +2,11 @@ package com.spiderNovel.webapp.dao;
 
 import com.novel.storage.model.Novel_Info;
 
+import java.util.List;
+
 public interface Qidian_Novel_InfoDao {
+    int saveOrUpdate(Novel_Info record);
+
     int deleteByPrimaryKey(Integer id);
 
     int insert(Novel_Info record);
@@ -11,7 +15,15 @@ public interface Qidian_Novel_InfoDao {
 
     Novel_Info selectByPrimaryKey(Integer id);
 
+    List<String> selectTypeList();
+
+    List<Novel_Info> selectAll();
+
+    List<Novel_Info> selectByContent(String content);
+
     int updateByPrimaryKeySelective(Novel_Info record);
 
     int updateByPrimaryKey(Novel_Info record);
+
+    List<Novel_Info> selectNovelByType(String type);
 }

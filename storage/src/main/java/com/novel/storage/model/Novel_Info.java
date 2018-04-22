@@ -1,6 +1,16 @@
 package com.novel.storage.model;
 
 public class Novel_Info {
+    public Integer getCount() {
+        return count;
+    }
+
+    public void setCount(Integer count) {
+        this.count = count;
+    }
+
+    private Integer count;
+
     private Integer id;
 
     private String name;
