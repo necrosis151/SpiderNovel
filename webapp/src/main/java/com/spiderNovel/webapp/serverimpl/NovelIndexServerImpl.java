@@ -125,8 +125,19 @@ public class NovelIndexServerImpl implements NovelIndexServer {
     }
 
     @Override
-    public List<Novel_Info> getNovelByType(String site,String type) {
-
-        return null;
+    public List<Novel_Info> getNovelByType(String site, String type) {
+        String beanName = "";
+        for (HashMap<String, String> spiderContext : SpiderRuleReader.getContextMap().values()
+                ) {
+            if (spiderContext.get("title").contains(site)) {
+                beanName = spiderContext.get("novel_infoDao");
+                break;
+            }
+        }
+        System.out.println(beanName);
+        System.out.println(type);
+        Method method = ReflectionUtils.findMethod(springContextsUtil.getBean(beanName).getClass(), "selectNovelByType", String.class);
+        System.out.println(method.getName());
+        return (List<Novel_Info>) ReflectionUtils.invokeMethod(method, springContextsUtil.getBean(beanName), type);
     }
 }

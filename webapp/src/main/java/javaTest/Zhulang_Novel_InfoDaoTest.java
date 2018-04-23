@@ -63,5 +63,16 @@ public class Zhulang_Novel_InfoDaoTest {
         System.out.println(novelIndexServer. getTypeList(site));
 
     }
+    @Test
+    public void selectListByTypeTest() {
+//        String site = "zhulang.com";
+//        String site="qidian.com";
+        String site="逐浪";
+        String type="[悬疑侦探]";
+        ApplicationContext act = new ClassPathXmlApplicationContext("spring-mybatis.xml");
+        NovelIndexServerImpl novelIndexServer = (NovelIndexServerImpl) act.getBean("novelIndexServerImpl");
+        System.out.println(novelIndexServer. getNovelByType(site,type));
+
+    }
 
 }

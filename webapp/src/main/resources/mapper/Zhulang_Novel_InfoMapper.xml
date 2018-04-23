@@ -23,10 +23,10 @@
     DISTINCT type
     from zhulang_novel_info
   </select>
-    <select id="selectNovelByType" resultMap="BaseResultMap" parameterType="String">
+    <select id="selectNovelByType" resultMap="BaseResultMap" parameterType="java.lang.String">
         select
         <include refid="Base_Column_List"/>
-        from zhulang_novel_info WHERE TYPE ={#type}
+        from zhulang_novel_info WHERE TYPE = #{type}
     </select>
     <select id="selectAll" resultMap="BaseResultMap">
         select

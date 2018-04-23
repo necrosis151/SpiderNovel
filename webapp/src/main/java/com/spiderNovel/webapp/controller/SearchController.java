@@ -48,6 +48,7 @@ public class SearchController {
     public List<Novel_Info> getNovelByType(@RequestBody Map<String, String> map) {
         String site = map.get("site");
         String type = map.get("type");
+        System.out.println(site+"      "+type);
         return novelIndexServer.getNovelByType(site, type);
     }
 }
