@@ -49,29 +49,7 @@
         var site;
         var pageSize = 10;
 
-        function selectType(title, type) {
-            var url = "search/byType";
-            var json = JSON.stringify({type: type, site: title});
-            getNovelList(url, json);
-            // $("#novelList").html("");
-            $("#novelList").datagrid('loadData', {total: 0, rows: []});
-            for (i = 0; i < novelList.length; i++) {
-                // var temp = "<tr><td>" + novelList[i].name + "</td><td>" + novelList[i].author + "</td><td>" + novelList[i].url + "</td><td>" + novelList[i].type + "</td><td>" + novelList[i].status + "</td></tr>"
-                $("#novelList").datagrid('insertRow', {
-
-                    row: {
-                        name: novelList[i].name,
-                        author: novelList[i].author,
-                        url: "<a href='" + novelList[i].url + "'>" + novelList[i].url + "</a>",
-                        type: novelList[i].type,
-                        status: novelList[i].status,
-
-                    }
-                });
-            }
-        }
-
-        function getNovelList(url, json) {
+        function getTypeList(url, json) {
             $.ajax({
                 type: "post",
                 url: url,
@@ -80,27 +58,40 @@
                 contentType: "application/json;charset=UTF-8",
                 dataType: "json",
                 success: function (data) {
-                    novelList = data;
+                    typeList = data;
                 }
             });
         }
 
-        $(function () {
-
+        function selectType(title, type) {
+            var url = "search/byType";
+            var json = {type: type, site: title};
+            // getNovelList(url, json);
+            // $("#novelList").html("");
+            $("#novelList").datagrid('loadData', {total: 0, rows: []});
             $("#novelList").datagrid({
-                onClickRow: function (rowIndex, rowData) {
-                    $(this).datagrid('unselectRow', rowIndex);
-                },
-                pageNumber: 1,
-                singleSelect: true,
-                border: false,
-                rownumbers: true,
+                url: url,
+                queryParams: json,
                 pageList: [10, 20, 30],//选择一页显示多少数据
-                pagination: true,//在DataGrid控件底部显示分页工具栏。
-            });
+                pageNumber: 1,
+                pagination: true})//在DataGrid控件底部显示分页工具栏。});
+                // for (i = 0; i < novelList.length; i++) {
+                //     // var temp = "<tr><td>" + novelList[i].name + "</td><td>" + novelList[i].author + "</td><td>" + novelList[i].url + "</td><td>" + novelList[i].type + "</td><td>" + novelList[i].status + "</td></tr>"
+                //     $("#novelList").datagrid('insertRow', {
+                //
+                //         row: {
+                //             name: novelList[i].name,
+                //             author: novelList[i].author,
+                //             url: "<a href='" + novelList[i].url + "'>" + novelList[i].url + "</a>",
+                //             type: novelList[i].type,
+                //             status: novelList[i].status,
+                //
+                //         }
+                //     });
+                // }
+            }
 
-
-            function getTypeList(url, json) {
+            function getNovelList(url, json) {
                 $.ajax({
                     type: "post",
                     url: url,
@@ -109,32 +100,43 @@
                     contentType: "application/json;charset=UTF-8",
                     dataType: "json",
                     success: function (data) {
-                        typeList = data;
+                        novelList = data;
                     }
                 });
             }
 
+            $(function () {
 
-            $('#tt').tabs({
-                onSelect: function (title) {
-                    var json = JSON.stringify({site: title});
-                    var temp;
-                    site = title;
-                    $(".type").html("");
-                    getTypeList("search/typeList", json);
-                    for (i = 0; i < typeList.length; i++) {
-                        temp = "<li><a href=javascript:void(0); onclick='selectType(site,this.text)'>" + typeList[i] + "</a></li>";
-                        $(".type").append(temp);
+                $("#novelList").datagrid({
+                    onClickRow: function (rowIndex, rowData) {
+                        $(this).datagrid('unselectRow', rowIndex);
+                    },
+                    singleSelect: true,
+                    border: false,
+                    rownumbers: true,
+
+                });
+
+                $('#tt').tabs({
+                    onSelect: function (title) {
+                        var json = JSON.stringify({site: title});
+                        var temp;
+                        site = title;
+                        $(".type").html("");
+                        getTypeList("search/typeList", json);
+                        for (i = 0; i < typeList.length; i++) {
+                            temp = "<li><a href=javascript:void(0); onclick='selectType(site,this.text)'>" + typeList[i] + "</a></li>";
+                            $(".type").append(temp);
+                        }
                     }
-                }
-            });
-        })
+                });
+            })
 
 
-        function qq(value, name) {
-            var pageNum = 1;
-            getNovelList(value, name, pageNum, pageSize);
-        }
+            function qq(value, name) {
+                var pageNum = 1;
+                getNovelList(value, name, pageNum, pageSize);
+            }
     </script>
 </head>
 <body>
